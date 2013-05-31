@@ -1,12 +1,12 @@
 Name:          mutter
 Version:       3.8.3
-Release:       0.1.7186ddf%{?dist}
+Release:       0.2.fb0999a%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
-Source0:       http://download.gnome.org/sources/%{name}/3.8/%{name}-%{version}-7186ddf.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.8/%{name}-%{version}-fb0999a.tar.xz
 
 BuildRequires: clutter-devel >= 1.13.5
 BuildRequires: pango-devel
@@ -133,6 +133,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Fri May 31 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 3.8.3-0.2.fb0999a.R
+- fix GNOME #701219
+
 * Mon May 27 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 3.8.3-0.1.7186ddf.R
 - update to last snapshot
 
