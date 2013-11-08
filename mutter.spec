@@ -1,12 +1,13 @@
 Name:          mutter
-Version:       3.8.3
-Release:       0.2.fb0999a%{?dist}
+Version:       3.8.4
+Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
-Source0:       http://download.gnome.org/sources/%{name}/3.8/%{name}-%{version}-fb0999a.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.8/%{name}-%{version}.tar.xz
+Patch0:        mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= 1.13.5
 BuildRequires: pango-devel
@@ -63,6 +64,7 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
+%patch0 -p1 -b .fullscreen
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; fi;
@@ -133,11 +135,14 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
-* Fri May 31 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 3.8.3-0.2.fb0999a.R
-- fix GNOME #701219
+* Fri Nov  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> 3.8.4-1.R
+- fix flash player fullscreen on some sites
 
-* Mon May 27 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 3.8.3-0.1.7186ddf.R
-- update to last snapshot
+* Tue Jul 30 2013 Ray Strode <rstrode@redhat.com> 3.8.4-1
+- Update to 3.8.4
+
+* Fri Jun 07 2013 Florian Müllner <fmuellner@redhat.com> - 3.8.3-1
+- Update to 3.8.3
 
 * Tue May 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.8.2-1
 - Update to 3.8.2
