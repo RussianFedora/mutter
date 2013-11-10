@@ -1,6 +1,6 @@
 Name:          mutter
 Version:       3.10.1.1
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -8,7 +8,10 @@ License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
-Patch0:        mutter-3.8.3-fullscreen-flash-player.patch
+
+Patch0: 0001-window-don-t-ignore-resize-button-release-event-for-.patch
+
+Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= 1.13.5
 BuildRequires: pango-devel
@@ -65,7 +68,8 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch0 -p1 -b .fix-resize-button-release
+%patch90 -p1
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; fi;
@@ -129,6 +133,10 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Mon Nov 04 2013 Florian MГјllner <fmuellner@redhat.com> - 3.10.1.1-2.R
+- Fix mouse-button-modifier resize operations not finishing on button
+  release (regression introduced in 3.10.1)
+
 * Fri Nov  1 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 3.10.1.1-1.R
 - fix flash expansion on full screen for some sites
 
