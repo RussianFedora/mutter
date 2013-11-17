@@ -1,5 +1,5 @@
 Name:          mutter
-Version:       3.10.1.1
+Version:       3.10.2
 Release:       2%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
@@ -9,7 +9,7 @@ License:       GPLv2+
 URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
 
-Patch0: 0001-window-don-t-ignore-resize-button-release-event-for-.patch
+Patch1: 0001-xrandr-use-hotplug_mode_update-property.patch
 
 Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
 
@@ -68,7 +68,8 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fix-resize-button-release
+
+%patch1 -p1 -b .hotplug-mode-update
 %patch90 -p1
 
 %build
@@ -133,6 +134,12 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-2.R
+- Include support for hotplug_mode_update property
+
+* Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-1
+- Update to 3.10.2 (Just drop that downstream patch)
+
 * Mon Nov 04 2013 Florian MГјllner <fmuellner@redhat.com> - 3.10.1.1-2.R
 - Fix mouse-button-modifier resize operations not finishing on button
   release (regression introduced in 3.10.1)
