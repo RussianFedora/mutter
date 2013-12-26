@@ -1,6 +1,6 @@
 Name:          mutter
 Version:       3.10.2
-Release:       2%{?dist}
+Release:       4%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -10,6 +10,8 @@ URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
 
 Patch1: 0001-xrandr-use-hotplug_mode_update-property.patch
+Patch2: 0001-MetaWindowGroup-fix-paint-volume.patch
+Patch3: 0001-display-Don-t-focus-the-no-focus-window-when-sending.patch
 
 Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
 
@@ -70,6 +72,8 @@ utilities for testing Metacity/Mutter themes.
 %setup -q
 
 %patch1 -p1 -b .hotplug-mode-update
+%patch2 -p1
+%patch3 -p1
 %patch90 -p1
 
 %build
@@ -134,6 +138,12 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Tue Dec 10 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-4
+- Include a fix for on-screen keyboards
+
+* Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-3
+- Include a fix for lingering shadows
+
 * Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-2.R
 - Include support for hotplug_mode_update property
 
