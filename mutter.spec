@@ -1,13 +1,16 @@
 Name:          mutter
 Version:       3.8.4
-Release:       1%{?dist}
+Release:       2%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 Source0:       http://download.gnome.org/sources/%{name}/3.8/%{name}-%{version}.tar.xz
-Patch0:        mutter-3.8.3-fullscreen-flash-player.patch
+# upstream fix
+Patch0: 0001-MetaWindowGroup-fix-paint-volume.patch
+
+Patch99:        mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= 1.13.5
 BuildRequires: pango-devel
@@ -64,7 +67,8 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fullscreen
+%patch0 -p1
+%patch99 -p1 -b .fullscreen
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; fi;
@@ -135,6 +139,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.8.4-2.R
+- Include a fix for lingering shadows
+
 * Fri Nov  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> 3.8.4-1.R
 - fix flash player fullscreen on some sites
 
