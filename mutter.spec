@@ -1,6 +1,6 @@
 Name:          mutter
 Version:       3.10.2
-Release:       4%{?dist}
+Release:       6%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -12,6 +12,9 @@ Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}
 Patch1: 0001-xrandr-use-hotplug_mode_update-property.patch
 Patch2: 0001-MetaWindowGroup-fix-paint-volume.patch
 Patch3: 0001-display-Don-t-focus-the-no-focus-window-when-sending.patch
+# https://bugzilla.gnome.org/show_bug.cgi?id=711618
+Patch4: unfocus_grab_window.patch
+Patch5: dont_leave_focus.patch
 
 Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
 
@@ -74,6 +77,8 @@ utilities for testing Metacity/Mutter themes.
 %patch1 -p1 -b .hotplug-mode-update
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
+%patch5 -p1
 %patch90 -p1
 
 %build
@@ -138,10 +143,16 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
-* Tue Dec 10 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-4
+* Mon Dec 23 2013 Adam Williamson <awilliam@redhat.com> - 3.10.2-6.R
+include both BGO #710296 and BGO #711618 fixes
+
+* Mon Dec 23 2013 Adam Williamson <awilliam@redhat.com> - 3.10.2-5.R
+- revert the OSK fix as it triggered another bug, BGO #711618
+
+* Tue Dec 10 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-4.R
 - Include a fix for on-screen keyboards
 
-* Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-3
+* Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-3.R
 - Include a fix for lingering shadows
 
 * Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-2.R
