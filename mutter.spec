@@ -134,6 +134,19 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 * Tue Jan 28 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.10.3-1.R
 - update to 3.10.3
 
+* Mon Dec 23 2013 Adam Williamson <awilliam@redhat.com> - 3.10.2-6.R
+include both BGO #710296 and BGO #711618 fixes
+
+* Mon Dec 23 2013 Adam Williamson <awilliam@redhat.com> - 3.10.2-5.R
+- revert the OSK fix as it triggered another bug, BGO #711618
+
+* Tue Dec 10 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-4.R
+- Include a fix for on-screen keyboards
+
+* Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-3.R
+- Include a fix for lingering shadows
+>>>>>>> a73962112b1e1c29eb65d5dca8d5ffd6517bc8a0
+
 * Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-2.R
 - Include support for hotplug_mode_update property
 
