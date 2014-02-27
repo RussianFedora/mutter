@@ -1,6 +1,6 @@
 Name:          mutter
-Version:       3.10.3
-Release:       2%{?dist}
+Version:       3.10.4
+Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -8,9 +8,6 @@ License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
-
-Patch0: 0001-constraints-CSD-windows-need-to-have-their-titlebar-.patch
-Patch1: 0001-window-Add-skip-taskbar-property.patch
 
 Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
 
@@ -69,9 +66,6 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch0 -p1 -b .keep-csd-titlebars-onscreen
-%patch1 -p1 -b .add-skip-taskbar-property
-
 %patch90 -p1
 
 %build
@@ -136,6 +130,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Wed Feb 19 2014 Florian Müllner <fmuellner@redhat.com> - 3.10.4-1.R
+- Update to 3.10.4, drop included downstream patches
+
 * Fri Jan 31 2014 Florian Müllner <fmuellner@redhat.com> - 3.10.3-2.R
 - Backport upstream patches for
  - CSD titlebars being placed off-screen
@@ -155,7 +152,6 @@ include both BGO #710296 and BGO #711618 fixes
 
 * Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-3.R
 - Include a fix for lingering shadows
->>>>>>> a73962112b1e1c29eb65d5dca8d5ffd6517bc8a0
 
 * Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-2.R
 - Include support for hotplug_mode_update property
