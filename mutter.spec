@@ -1,15 +1,15 @@
 Name:          mutter
-Version:       3.10.4
-Release:       1%{?dist}
+Version:       3.11.90
+Release:       2%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
-Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.11/%{name}-%{version}.tar.xz
 
-Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
+Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= 1.13.5
 BuildRequires: pango-devel
@@ -66,7 +66,7 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch90 -p1
+%patch9 -p1 -b .flash
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; fi;
@@ -130,41 +130,38 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
-* Wed Feb 19 2014 Florian Müllner <fmuellner@redhat.com> - 3.10.4-1.R
-- Update to 3.10.4, drop included downstream patches
+* Tue Mar  4 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.90-2.R
+- apply patch for proper switching flash to fullscreen
 
-* Fri Jan 31 2014 Florian Müllner <fmuellner@redhat.com> - 3.10.3-2.R
-- Backport upstream patches for
- - CSD titlebars being placed off-screen
- - add skip-taskbar property
+* Thu Feb 20 2014 Kalev Lember <kalevlember@gmail.com> - 3.11.90-2
+- Rebuilt for cogl soname bump
 
-* Tue Jan 28 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.10.3-1.R
-- update to 3.10.3
+* Wed Feb 19 2014 Florian Müllner <fmuellner@redhat.com> - 3.11.90-1
+- Update to 3.11.90
 
-* Mon Dec 23 2013 Adam Williamson <awilliam@redhat.com> - 3.10.2-6.R
-include both BGO #710296 and BGO #711618 fixes
+* Wed Feb 19 2014 Richard Hughes <rhughes@redhat.com> - 3.11.5-4
+- Rebuilt for gnome-desktop soname bump
 
-* Mon Dec 23 2013 Adam Williamson <awilliam@redhat.com> - 3.10.2-5.R
-- revert the OSK fix as it triggered another bug, BGO #711618
+* Mon Feb 10 2014 Peter Hutterer <peter.hutterer@redhat.com> - 3.11.5-3
+- Rebuild for libevdev soname bump
 
-* Tue Dec 10 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-4.R
-- Include a fix for on-screen keyboards
+* Wed Feb 05 2014 Richard Hughes <rhughes@redhat.com> - 3.11.5-2
+- Rebuilt for cogl soname bump
 
-* Mon Dec  9 2013 Matthias Clasen <mclasen@redhat.com> - 3.10.2-3.R
-- Include a fix for lingering shadows
+* Wed Feb 05 2014 Florian Müllner <fmuellner@redhat.com> - 3.11.5-1
+- Update to 3.11.5
 
-* Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-2.R
-- Include support for hotplug_mode_update property
+* Wed Jan 15 2014 Florian Müllner <fmuellner@redhat.com> - 3.11.4-1
+- Update to 3.11.4
 
-* Thu Nov 14 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.2-1
-- Update to 3.10.2 (Just drop that downstream patch)
+* Fri Dec 20 2013 Florian Müllner <fmuellner@redhat.com> - 3.11.3-1
+- Update to 3.11.3
 
-* Mon Nov 04 2013 Florian MГјllner <fmuellner@redhat.com> - 3.10.1.1-2.R
-- Fix mouse-button-modifier resize operations not finishing on button
-  release (regression introduced in 3.10.1)
+* Wed Nov 13 2013 Florian Müllner <fmuellner@redhat.com> - 3.11.2-1
+- Update to 3.11.2
 
-* Fri Nov  1 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 3.10.1.1-1.R
-- fix flash expansion on full screen for some sites
+* Wed Oct 30 2013 Florian Müllner <fmuellner@redhat.com> - 3.11.1-1
+- Update to 3.11.1
 
 * Tue Oct 15 2013 Florian Müllner <fmuellner@redhat.com> - 3.10.1.1-1
 - Update to 3.10.1.1
