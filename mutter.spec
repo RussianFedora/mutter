@@ -130,7 +130,7 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
-* Mar Mar 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.91-1.R
+* Wed Mar 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.91-1.R
 - update to 3.11.91
 
 * Tue Mar  4 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.90-2.R
