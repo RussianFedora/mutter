@@ -1,5 +1,5 @@
 Name:          mutter
-Version:       3.11.91
+Version:       3.12.0
 Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
@@ -7,7 +7,7 @@ Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
-Source0:       http://download.gnome.org/sources/%{name}/3.11/%{name}-%{version}.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.12/%{name}-%{version}.tar.xz
 
 Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
@@ -130,6 +130,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Thu Mar 27 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.13.0-1.R
+- update to 3.12.0
+
 * Wed Mar 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.91-1.R
 - update to 3.11.91
 
