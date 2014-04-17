@@ -11,7 +11,7 @@ Source0:       http://download.gnome.org/sources/%{name}/3.12/%{name}-%{version}
 
 Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
-BuildRequires: clutter-devel >= 1.13.5
+BuildRequires: clutter-devel >= 1.15.90
 BuildRequires: pango-devel
 BuildRequires: startup-notification-devel
 BuildRequires: gnome-desktop3-devel
@@ -34,9 +34,9 @@ BuildRequires: gtk-doc gnome-common intltool
 BuildRequires: libcanberra-devel
 BuildRequires: gsettings-desktop-schemas-devel
 
-# Make sure this can't be installed with an old gnome-shell build because of
-# an ABI change.
-Conflicts: gnome-shell < 3.9.90
+# Make sure yum updates gnome-shell as well; otherwise we might end up with
+# broken gnome-shell installations due to mutter ABI changes.
+Conflicts: gnome-shell < 3.12.0
 
 Requires: control-center-filesystem
 Requires: startup-notification
@@ -132,6 +132,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %changelog
 * Thu Apr 17 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.1-1.R
 - update to 3.12.1
+
+* Sat Apr 05 2014 Kalev Lember <kalevlember@gmail.com> - 3.12.0-2.R
+- Update dep versions
 
 * Thu Mar 27 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.0-1.R
 - update to 3.12.0
