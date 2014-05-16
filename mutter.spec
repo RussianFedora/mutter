@@ -1,5 +1,5 @@
 Name:          mutter
-Version:       3.12.1
+Version:       3.12.2
 Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
@@ -130,6 +130,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Fri May 16 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.2-1.R
+- update to 3.12.2
+
 * Thu Apr 17 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.1-1.R
 - update to 3.12.1
 
