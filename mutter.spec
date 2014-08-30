@@ -1,23 +1,27 @@
+%global clutter_version 1.19.6-3
+
 Name:          mutter
-Version:       3.12.2
-Release:       1%{?dist}
+Version:       3.13.90
+Release:       4%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
-Source0:       http://download.gnome.org/sources/%{name}/3.12/%{name}-%{version}.tar.xz
-
+Source0:       http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
+# rhbz1103221 From upstream git, drop when rebasing
+Patch1:        0001-workspace-Smarten-assert-in-light-of-O-R-windows.patch
+Patch2:        0001-meta-surface-actor-Fix-is_argb32-for-unredirected-wi.patch
 Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
-BuildRequires: clutter-devel >= 1.15.90
+BuildRequires: clutter-devel >= %{clutter_version}
 BuildRequires: pango-devel
 BuildRequires: startup-notification-devel
 BuildRequires: gnome-desktop3-devel
 BuildRequires: gtk3-devel >= 3.9.11
 BuildRequires: pkgconfig
-BuildRequires: gobject-introspection-devel
+BuildRequires: gobject-introspection-devel >= 1.41.0
 BuildRequires: libSM-devel
 BuildRequires: libX11-devel
 BuildRequires: libXdamage-devel
@@ -26,7 +30,12 @@ BuildRequires: libXrandr-devel
 BuildRequires: libXrender-devel
 BuildRequires: libXcursor-devel
 BuildRequires: libXcomposite-devel
+BuildRequires: libxcb-devel
+BuildRequires: libxkbcommon-x11-devel
+BuildRequires: libxkbfile-devel
+BuildRequires: pam-devel
 BuildRequires: upower-devel
+BuildRequires: xkeyboard-config-devel
 BuildRequires: zenity
 BuildRequires: desktop-file-utils
 # Bootstrap requirements
@@ -34,10 +43,14 @@ BuildRequires: gtk-doc gnome-common intltool
 BuildRequires: libcanberra-devel
 BuildRequires: gsettings-desktop-schemas-devel
 
+Obsoletes: mutter-wayland < 3.13.0
+Obsoletes: mutter-wayland-devel < 3.13.0
+
 # Make sure yum updates gnome-shell as well; otherwise we might end up with
 # broken gnome-shell installations due to mutter ABI changes.
 Conflicts: gnome-shell < 3.12.0
 
+Requires: clutter%{?_isa} >= %{clutter_version}
 Requires: control-center-filesystem
 Requires: startup-notification
 Requires: dbus-x11
@@ -66,13 +79,15 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch9 -p1 -b .flash
+%patch1 -p1
+%patch2 -p1
+%patch9 -p1
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; fi;
  %configure --disable-static --enable-compile-warnings=maximum)
 
-SHOULD_HAVE_DEFINED="HAVE_SM HAVE_SHAPE HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
+SHOULD_HAVE_DEFINED="HAVE_SM HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
 
 for I in $SHOULD_HAVE_DEFINED; do
   if ! grep -q "define $I" config.h; then
@@ -110,15 +125,16 @@ fi
 glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 
 %files -f %{name}.lang
-%doc README AUTHORS COPYING NEWS HACKING doc/theme-format.txt
+%doc COPYING NEWS doc/theme-format.txt
 %doc %{_mandir}/man1/mutter.1.gz
 %{_bindir}/mutter
 %{_datadir}/applications/*.desktop
-%{_datadir}/gnome/wm-properties/mutter-wm.desktop
 %{_libdir}/lib*.so.*
 %{_libdir}/mutter/
+%{_libexecdir}/mutter-restart-helper
 %{_datadir}/GConf/gsettings/mutter-schemas.convert
 %{_datadir}/glib-2.0/schemas/org.gnome.mutter.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.mutter.wayland.gschema.xml
 %{_datadir}/gnome-control-center/keybindings/50-mutter-*.xml
 
 
@@ -130,23 +146,81 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
-* Fri May 16 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.2-1.R
-- update to 3.12.2
+* Sat Aug 30 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.13.90-4.R
+- fix flash fullscreen in browsers
 
-* Thu Apr 17 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.1-1.R
-- update to 3.12.1
+* Tue Aug 26 2014 Adel Gadllah <adel.gadllah@gmail.com> - 3.13.90-4
+- Apply fix for RH #1133166
 
-* Sat Apr 05 2014 Kalev Lember <kalevlember@gmail.com> - 3.12.0-2.R
+* Mon Aug 25 2014 Hans de Goede <hdegoede@redhat.com> - 3.13.90-3
+- Add a patch from upstream fixing gnome-shell crashing non stop on
+  multi monitor setups (rhbz#1103221)
+
+* Fri Aug 22 2014 Kevin Fenzi <kevin@scrye.com> 3.13.90-2
+- Rebuild for new wayland
+
+* Wed Aug 20 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.90-1
+- Update to 3.13.90
+
+* Mon Aug 18 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.4-3
+- Rebuilt for upower 0.99.1 soname bump
+
+* Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.13.4-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
+* Wed Jul 23 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.4-1
+- Update to 3.13.4
+
+* Tue Jul 22 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.3-2
+- Rebuilt for gobject-introspection 1.41.4
+
+* Fri Jun 27 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.3-1
+- New gobject-introspection has been built, drop the last patch again
+
+* Wed Jun 25 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.3-1
+- Revert annotation updates until we get a new gobject-introspection build
+
+* Wed Jun 25 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.3-1
+- Update to 3.13.1
+
+* Wed Jun 11 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.2-2
+- Backport fix for legacy fullscreen check
+
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.13.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Tue May 27 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.2-1
+- Update to 3.13.2, drop upstreamed patches
+
+* Thu May  8 2014 Matthias Clasen <mclasen@redhat.com> - 3.13.1-5
+- Fix shrinking terminals
+
+* Wed May 07 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.1-4
+- Backport an upstream fix for a Wayland session crash
+
+* Wed May 07 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.1-3
+- Install mutter-launch as setuid root
+
+* Thu May 01 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.1-2
+- Obsolete mutter-wayland
+
+* Wed Apr 30 2014 Florian Müllner <fmuellner@redhat.com> - 3.13.1-1
+- Update to 3.13.1
+
+* Tue Apr 15 2014 Florian Müllner <fmuellner@redhat.com> - 3.12.1-1
+- Update to 3.12.1
+
+* Sat Apr 05 2014 Kalev Lember <kalevlember@gmail.com> - 3.12.0-2
 - Update dep versions
 
-* Thu Mar 27 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.12.0-1.R
-- update to 3.12.0
+* Tue Mar 25 2014 Florian Müllner <fmuellner@redhat.com> - 3.12.0-1
+- Update to 3.12.0
 
-* Wed Mar 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.91-1.R
-- update to 3.11.91
+* Wed Mar 19 2014 Florian Müllner <fmuellner@redhat.com> - 3.11.92-1
+- Update to 3.11.92
 
-* Tue Mar  4 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.11.90-2.R
-- apply patch for proper switching flash to fullscreen
+* Thu Mar 06 2014 Florian Müllner <fmuellner@redhat.com> - 3.11.91-1
+- Update to 3.11.91
 
 * Thu Feb 20 2014 Kalev Lember <kalevlember@gmail.com> - 3.11.90-2
 - Rebuilt for cogl soname bump
