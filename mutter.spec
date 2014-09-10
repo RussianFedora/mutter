@@ -1,8 +1,8 @@
 %global clutter_version 1.19.6-3
 
 Name:          mutter
-Version:       3.13.90
-Release:       4%{?dist}
+Version:       3.13.91
+Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -10,9 +10,6 @@ License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
-# rhbz1103221 From upstream git, drop when rebasing
-Patch1:        0001-workspace-Smarten-assert-in-light-of-O-R-windows.patch
-Patch2:        0001-meta-surface-actor-Fix-is_argb32-for-unredirected-wi.patch
 Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= %{clutter_version}
@@ -79,8 +76,6 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch1 -p1
-%patch2 -p1
 %patch9 -p1
 
 %build
@@ -146,6 +141,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Wed Sep 03 2014 Florian Müllner <fmuellner@redhat.com> - 3.31.91-1.R
+- Update to 3.13.91, drop downstream patches
+
 * Sat Aug 30 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 3.13.90-4.R
 - fix flash fullscreen in browsers
 
