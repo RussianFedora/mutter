@@ -1,15 +1,17 @@
 %global clutter_version 1.19.6-3
 
 Name:          mutter
-Version:       3.13.92
-Release:       1.1%{?dist}
+Version:       3.14.1
+Release:       2%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
 License:       GPLv2+
 #VCS:          git:git://git.gnome.org/mutter
 URL:           http://www.gnome.org
-Source0:       http://download.gnome.org/sources/%{name}/3.13/%{name}-%{version}.tar.xz
+Source0:       http://download.gnome.org/sources/%{name}/3.14/%{name}-%{version}.tar.xz
+
+Patch0:        0001-display-Fix-accidental-inversion-from-2f9c601.patch
 Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= %{clutter_version}
@@ -45,7 +47,7 @@ Obsoletes: mutter-wayland-devel < 3.13.0
 
 # Make sure yum updates gnome-shell as well; otherwise we might end up with
 # broken gnome-shell installations due to mutter ABI changes.
-Conflicts: gnome-shell < 3.12.0
+Conflicts: gnome-shell < 3.14.1
 
 Requires: clutter%{?_isa} >= %{clutter_version}
 Requires: control-center-filesystem
@@ -76,6 +78,7 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
+%patch0 -p1 -b .fix-raise-on-click-regression
 %patch9 -p1
 
 %build
@@ -141,6 +144,21 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Tue Oct 21 2014 Florian Müllner <fmuellner@redhat.com> - 3.14.1-2.R
+- Fix regression in handling raise-on-click option (rhbz#1151918)
+
+* Tue Oct 14 2014 Florian Müllner <fmuellner@redhat.com> - 3.14.1-1.R
+- Update to 3.14.1
+
+* Fri Oct 03 2014 Adam Williamson <awilliam@redhat.com> - 3.14.0-3.R
+- backport fix for BGO #737233 / RHBZ #1145952 (desktop right click broken)
+
+* Mon Sep 22 2014 Kalev Lember <kalevlember@gmail.com> - 3.14.0-2.R
+- Bump gnome-shell conflicts version
+
+* Mon Sep 22 2014 Florian Müllner <fmuellner@redhat.com> - 3.14.0-1.R
+- Update to 3.14.0
+
 * Wed Sep 17 2014 Kalev Lember <kalevlember@gmail.com> - 3.13.92-1.1.R
 - Rebuilt for libinput 0.6 soname bump
 
