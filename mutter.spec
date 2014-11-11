@@ -11,7 +11,6 @@ License:       GPLv2+
 URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.14/%{name}-%{version}.tar.xz
 
-Patch0:        0001-display-Fix-accidental-inversion-from-2f9c601.patch
 Patch9:        mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= %{clutter_version}
@@ -78,7 +77,6 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
-%patch0 -p1 -b .fix-raise-on-click-regression
 %patch9 -p1
 
 %build
