@@ -90,7 +90,7 @@ the functionality of the installed %{name} package.
 
 %build
 (if ! test -x configure; then NOCONFIGURE=1 ./autogen.sh; fi;
- %configure --disable-static --enable-compile-warnings=maximum --enable-installed-tests
+ %configure --disable-static --enable-compile-warnings=maximum --enable-installed-tests)
 
 SHOULD_HAVE_DEFINED="HAVE_SM HAVE_RANDR HAVE_STARTUP_NOTIFICATION"
 
