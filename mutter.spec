@@ -1,6 +1,6 @@
 Name:          mutter
 Version:       3.10.4
-Release:       1%{?dist}
+Release:       3%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -9,6 +9,8 @@ License:       GPLv2+
 URL:           http://www.gnome.org
 Source0:       http://download.gnome.org/sources/%{name}/3.10/%{name}-%{version}.tar.xz
 
+Patch1:        0001-window-actor-Guard-against-NULL-frame-mask.patch
+Patch2:        0001-background-Do-not-assume-GLSL-is-available.patch
 Patch90:       mutter-3.8.3-fullscreen-flash-player.patch
 
 BuildRequires: clutter-devel >= 1.13.5
@@ -66,6 +68,8 @@ utilities for testing Metacity/Mutter themes.
 
 %prep
 %setup -q
+%patch1 -p1 -b .prevent-crash-with-overly-large-windows
+%patch2 -p1 -b .fix-glsl-crash
 %patch90 -p1
 
 %build
@@ -130,6 +134,12 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %exclude %{_datadir}/gtk-doc
 
 %changelog
+* Thu Jul 24 2014 Adel Gadllah <adel.gadllah@gmail.com> - 3.10.4-3.R
+- Fix crash when GLSL is not available (#1046970)
+
+* Thu Apr 10 2014 Florian Müllner <fmuellner@redhat.com> - 3.10.4-2.R
+- Backport patch to prevent crash with overly large windows (#1043659)
+
 * Wed Feb 19 2014 Florian Müllner <fmuellner@redhat.com> - 3.10.4-1.R
 - Update to 3.10.4, drop included downstream patches
 
