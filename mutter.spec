@@ -1,8 +1,8 @@
 %global clutter_version 1.19.6-3
 
 Name:          mutter
-Version:       3.14.2
-Release:       2%{?dist}
+Version:       3.14.3
+Release:       1%{?dist}
 Summary:       Window and compositing manager based on Clutter
 
 Group:         User Interface/Desktops
@@ -156,6 +156,9 @@ glib-compile-schemas %{_datadir}/glib-2.0/schemas &> /dev/null || :
 %{_datadir}/mutter/tests
 
 %changelog
+* Tue Jan  6 2015 Arkady L. Shane <ashejn@russianfedora.pro> - 3.14.3-1.R
+- update to 3.14.3
+
 * Wed Nov 12 2014 Vadim Rutkovsky <vrutkovs@redhat.com> - 3.14.2-2.R
 - Build installed tests
 
